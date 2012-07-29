@@ -1,0 +1,49 @@
+Maintain .ssh/config files with network dependent settings
+
+How to use:
+
+ ssh root@somehost
+ somehost:~# cdnewdir .ssh-admin
+ somehost:~/.ssh-admin# git clone https://github.com/pflanze/ssh-admin-share.git
+ somehost:~/.ssh-admin# git init
+ somehost:~/.ssh-admin# echo ssh-admin-share > .gitignore
+ somehost:~/.ssh-admin# echo '#include "ssh-admin-share/config-common"' >> config-in
+
+edit config-in to add more directives, like for example:
+
+ # some comment
+ # ('#' is a comment indicator unless followed by CPP directives)
+
+ host t4
+	 hostkeyalias someotherhost
+ #if (network_t3||network_t3wlan||network_t4wlan)
+	 hostname 192.168.1.2
+ #else
+	 # per t3-tunnel
+	 port 3241
+	 hostname 127.0.0.1
+ #endif
+ #if network_t3
+	 Compression no
+ #else
+	 Compression yes
+ #endif
+
+Then run this every time the network changes (i.e. from some network
+configuration hook):
+
+ # cd ~/.ssh-admin/ssh-admin-share/ && make
+
+Then symlink the generated config file to whichever accounts you want
+to use it in:
+
+ cd .ssh &&  lns ~root/.ssh-admin/.config
+
+Note: if your ~root is not readable by others (as e.g. on Ubuntu) then
+you might want to place .ssh-admin somewhere else.
+
+Note2 2: the included Makefile assumes 'whami' to be around and in
+PATH, which should print the name of the current network
+configuration. You could instead call 'generate' with an argument of
+your choice directly.
+
