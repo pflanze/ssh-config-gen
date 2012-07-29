@@ -43,6 +43,7 @@ sub filter_file {
     };
     &$prline;
     while (<$in>) {
+	$line++;
 	if (/^\s*#/) {
 	    xprint "\n"
 	} else {
@@ -54,7 +55,6 @@ sub filter_file {
 		xprint $_;
 	    }
 	}
-	$line++;
     }
 }
 
