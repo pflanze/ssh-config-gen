@@ -4,7 +4,7 @@ set -eu
 
 where="$1"
 
-CONFIGDIR=..
+CONFIGDIR=/etc/ssh
 
 # network_"$where"=1 make
 
@@ -14,8 +14,8 @@ FILTER_FILE=`readlink -f filter_file`
 
 cd "$CONFIGDIR"
 
-"$FILTER_FILE" config-in > .config.pre
+"$FILTER_FILE" ssh_config-in > .ssh_config.pre
 
-cpp -D"network_$where=1" < .config.pre > .config.tmp
+cpp -D"network_$where=1" < .ssh_config.pre > .ssh_config.tmp
 
-mv .config.tmp .config
+mv .ssh_config.tmp ssh_config

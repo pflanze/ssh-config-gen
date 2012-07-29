@@ -1,15 +1,17 @@
-Maintain .ssh/config files with network dependent settings
+Maintain .ssh/config, or better, /etc/ssh_config files with network
+dependent settings automatically
 
 How to use:
 
  ssh root@somehost
- somehost:~# cdnewdir .ssh-config-gen
- somehost:~/.ssh-config-gen# git clone https://github.com/pflanze/ssh-config-gen-share.git
- somehost:~/.ssh-config-gen# git init
- somehost:~/.ssh-config-gen# echo ssh-config-gen-share > .gitignore
- somehost:~/.ssh-config-gen# echo '%include "ssh-config-gen-share/config-common"' >> config-in
+ somehost:~# cd /opt/chj/
+ somehost:/opt/chj# git clone https://github.com/pflanze/ssh-config-gen.git
+ somehost:/opt/chj# cd /etc/ssh
+ somehost:/etc/ssh# git init
+ somehost:/etc/ssh# echo '*' > .gitignore
+ somehost:/etc/ssh# echo '%include "/opt/chj/ssh-config-gen/ssh_config-common"' >> ssh_config-in
 
-Edit config-in to add more directives; all of the C preprocessor
+Edit ssn_config-in to add more directives; all of the C preprocessor
 directives are supported, but with '#' replaced by '%', and '#'
 instead used as comment indicator. A CPP directive named after
 'network_' and the name of the selected network appended is set to 1
@@ -35,18 +37,12 @@ when the preprocessor is run.  Example:
 Then run this every time the network changes (i.e. from some network
 configuration hook):
 
- # cd ~/.ssh-config-gen/ssh-config-gen-share/ && make
+ # cd /opt/chj/ssh-config-gen/ && make
 
-Then symlink the generated config file to whichever accounts you want
-to use it in:
-
- cd .ssh &&  lns ~root/.ssh-config-gen/.config
-
-Note: if your ~root is not readable by others (as e.g. on Ubuntu) then
-you might want to place .ssh-config-gen somewhere else.
-
-Note 2: the included Makefile assumes 'whami' to be around and in
-PATH, which should print the name of the current network
-configuration. You could instead call 'generate' with an argument of
-your choice directly.
+Note: the included Makefile assumes a script 'whami' (short for "where
+am I") to be installed and available from PATH, which should print the
+name of the currently selected network configuration. This is what is
+being appended to network_ when processing the config file. You could
+instead call the 'generate' program with an argument of your choice
+directly.
 
