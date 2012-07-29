@@ -3,11 +3,11 @@ Maintain .ssh/config files with network dependent settings
 How to use:
 
  ssh root@somehost
- somehost:~# cdnewdir .ssh-admin
- somehost:~/.ssh-admin# git clone https://github.com/pflanze/ssh-admin-share.git
- somehost:~/.ssh-admin# git init
- somehost:~/.ssh-admin# echo ssh-admin-share > .gitignore
- somehost:~/.ssh-admin# echo '%include "ssh-admin-share/config-common"' >> config-in
+ somehost:~# cdnewdir .ssh-config-gen
+ somehost:~/.ssh-config-gen# git clone https://github.com/pflanze/ssh-config-gen-share.git
+ somehost:~/.ssh-config-gen# git init
+ somehost:~/.ssh-config-gen# echo ssh-config-gen-share > .gitignore
+ somehost:~/.ssh-config-gen# echo '%include "ssh-config-gen-share/config-common"' >> config-in
 
 Edit config-in to add more directives; all of the C preprocessor
 directives are supported, but with '#' replaced by '%', and '#'
@@ -35,15 +35,15 @@ when the preprocessor is run.  Example:
 Then run this every time the network changes (i.e. from some network
 configuration hook):
 
- # cd ~/.ssh-admin/ssh-admin-share/ && make
+ # cd ~/.ssh-config-gen/ssh-config-gen-share/ && make
 
 Then symlink the generated config file to whichever accounts you want
 to use it in:
 
- cd .ssh &&  lns ~root/.ssh-admin/.config
+ cd .ssh &&  lns ~root/.ssh-config-gen/.config
 
 Note: if your ~root is not readable by others (as e.g. on Ubuntu) then
-you might want to place .ssh-admin somewhere else.
+you might want to place .ssh-config-gen somewhere else.
 
 Note 2: the included Makefile assumes 'whami' to be around and in
 PATH, which should print the name of the current network
