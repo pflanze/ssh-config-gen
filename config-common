@@ -1,0 +1,10 @@
+# configuration that's common to all setups
+
+Cipher blowfish
+
+Host 192.168.*.*
+Compression no
+
+Host *
+Compression yes
+ForwardX11Trusted no
