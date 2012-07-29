@@ -7,9 +7,14 @@ How to use:
  somehost:~# cd /opt/chj/
  somehost:/opt/chj# git clone https://github.com/pflanze/ssh-config-gen.git
  somehost:/opt/chj# cd /etc/ssh
- somehost:/etc/ssh# git init
+ somehost:/etc/ssh# git init  # entirely optional, of course
  somehost:/etc/ssh# echo '*' > .gitignore
+ somehost:/etc/ssh# dpkg-divert --local --rename /etc/ssh/ssh_config
+ somehost:/etc/ssh# echo '%include "ssh_config.distrib"' >> ssh_config-in
+ somehost:/etc/ssh# echo '# your own stuff here' >> ssh_config-in
  somehost:/etc/ssh# echo '%include "/opt/chj/ssh-config-gen/ssh_config-common"' >> ssh_config-in
+ somehost:/etc/ssh# git add -f ssh_config-in; git commit -m start  # again, optional of course
+
 
 Edit ssn_config-in to add more directives; all of the C preprocessor
 directives are supported, but with '#' replaced by '%', and '#'
