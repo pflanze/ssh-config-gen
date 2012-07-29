@@ -4,9 +4,13 @@ set -eu
 
 where="$1"
 
+CONFIGDIR=..
+
 # network_"$where"=1 make
 
 whereq=`printf '%q' "$where"`
+
+cd "$CONFIGDIR"
 
 perl -wne 'BEGIN{%keep =(if=> 1, ifdef=> 1, else=> 1, endif=> 1)} sub _pr { print $_[0] or die }; sub pr { _pr $_ }; sub nopr { _pr "\n" };  if (/^\s*#(\w*)/) { if ($keep{$1}) { pr } else { nopr } } else { pr }' < config-in > .config.pre
 
