@@ -1,0 +1,61 @@
+#!/usr/bin/perl -w
+
+use strict;
+
+$0=~ /(.*?)([^\/]+)\z/s or die "?";
+my ($mydir, $myname)=($1,$2);
+sub usage {
+    print STDERR map{"$_\n"} @_ if @_;
+    print "$myname inputfile
+
+  processes and prints contents of inputfile to a form that can be
+  processed by cpp, the C preprocessor.
+
+";
+exit (@_ ? 1 : 0);
+}
+
+use Getopt::Long;
+our $verbose=0;
+#our $opt_dry;
+GetOptions("verbose"=> \$verbose,
+	   "help"=> sub{usage},
+	   #"dry-run"=> \$opt_dry,
+	   ) or exit 1;
+usage unless @ARGV==1;
+
+sub xprint { print @_ or die "print: $!" }
+
+sub dirname { # always correct?
+    my ($path)=@_;
+    $path=~ s|[^/]+\z||;
+    $path
+}
+
+sub filter_file {
+    my ($path)=@_;
+    my $dir= dirname $path;
+    open my $in, "<", $path
+      or die "cannot open file <$path>: $!";
+    my $line=1;
+    my $prline= sub {
+	xprint qq{# $line "$path"\n};
+    };
+    &$prline;
+    while (<$in>) {
+	if (/^\s*#/) {
+	    xprint "\n"
+	} else {
+	    s/^(\s*)%/$1#/;
+	    if (/^\s*#\s*include\s*"(.*)"/) {
+		filter_file ("$dir$1");
+		&$prline;
+	    } else {
+		xprint $_;
+	    }
+	}
+	$line++;
+    }
+}
+
+filter_file $ARGV[0];
