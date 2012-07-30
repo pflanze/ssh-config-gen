@@ -11,6 +11,7 @@ CONFIGDIR=/etc/ssh
 whereq=`printf '%q' "$where"`
 
 ME=`readlink -f "$0"`
+# Dangerous? Well, just never make root run ME from an insecure place.
 FILTER_FILE="`dirname "$ME"`/filter_file"
 
 cd "$CONFIGDIR"
