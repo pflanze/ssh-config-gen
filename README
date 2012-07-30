@@ -39,6 +39,17 @@ when the preprocessor is run.  Example:
 	 Compression yes
  %endif
 
+ %define SERV1 \ 
+  hostkeyalias serv-1 B8NKRJ_NEWLINE \ 
+  hostname 1.2.3.4
+ # the special token B8NKRJ_NEWLINE will be replaced by a newline
+
+ host serv
+  SERV1 
+
+ host serv-1 
+  SERV1
+
 Then run this every time the network changes (i.e. from some network
 configuration hook):
 
