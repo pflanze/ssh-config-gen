@@ -11,11 +11,19 @@ CONFIGDIR=/etc/ssh
 whereq=`printf '%q' "$where"`
 
 FILTER_FILE=`readlink -f filter_file`
+ME=`readlink -f "$0"`
 
 cd "$CONFIGDIR"
 
-"$FILTER_FILE" ssh_config-in > .ssh_config.pre
+SOURCE=ssh_config-in
 
-cpp -D"network_$where=1" < .ssh_config.pre > .ssh_config.tmp
+"$FILTER_FILE" "$SOURCE" > .ssh_config.pre
+
+{
+echo "# *** generated from '$SOURCE' ***"
+echo "# *** by '$ME' with argument '$where' ***"
+echo 
+cpp -D"network_$where=1" < .ssh_config.pre
+} > .ssh_config.tmp
 
 mv .ssh_config.tmp ssh_config
