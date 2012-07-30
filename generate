@@ -24,7 +24,7 @@ SOURCE=ssh_config-in
 echo "# *** generated from '$SOURCE' ***"
 echo "# *** by '$ME' with argument '$where' ***"
 echo 
-cpp -D"network_$where=1" < .ssh_config.pre
+cpp -D"network_$where=1" < .ssh_config.pre | sed 's/B8NKRJ_NEWLINE/\n/g'
 } > .ssh_config.tmp
 
 mv .ssh_config.tmp ssh_config
