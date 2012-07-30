@@ -10,8 +10,8 @@ CONFIGDIR=/etc/ssh
 
 whereq=`printf '%q' "$where"`
 
-FILTER_FILE=`readlink -f filter_file`
 ME=`readlink -f "$0"`
+FILTER_FILE="`dirname "$ME"`/filter_file"
 
 cd "$CONFIGDIR"
 
