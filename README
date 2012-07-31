@@ -1,7 +1,7 @@
 Maintain .ssh/config, or better, /etc/ssh_config files with network
 dependent settings automatically
 
-How to use:
+How to install/use:
 
  ssh root@somehost
  somehost:~# cd /opt/chj/
@@ -62,7 +62,7 @@ being appended to network_ when processing the config file. You could
 instead call the 'generate' program with an argument of your choice
 directly.
 
-PS. that Makefile now uses absolute paths; this means, you can do:
+PS. the Makefile now uses absolute paths; this means, you can do:
 
  somehost:/etc/ssh# ln -s /opt/chj/ssh-config-gen/Makefile
 
