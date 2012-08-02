@@ -67,3 +67,10 @@ PS. the Makefile now uses absolute paths; this means, you can do:
  somehost:/etc/ssh# ln -s /opt/chj/ssh-config-gen/Makefile
 
 and then just run 'make' from /etc/ssh/.
+
+There's also generate-file-from, which allows you to write your own
+Makefile with an entry like:
+
+ data: data-in
+	 /opt/chj/ssh-config-gen/generate-file-from data data-in
+

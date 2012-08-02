@@ -2,10 +2,13 @@
 
 set -eu
 
-w=`whami`
+to="$1"
+from="$2"
 
-/opt/chj/ssh-config-gen/filter_file assign-in \
+w="${WHAMI-`whami`}"
+
+/opt/chj/ssh-config-gen/filter_file "$from" \
 | cpp -Dnetwork_"$w"=1 \
-| filter_whitespace > assign.new
+| /opt/chj/bin/filter_whitespace > ."$to".new
 
-mv assign.new assign
+mv ."$to".new "$to"
