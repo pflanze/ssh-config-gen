@@ -1,0 +1,11 @@
+#!/bin/bash
+
+set -eu
+
+w=`whami`
+
+/opt/chj/ssh-config-gen/filter_file assign-in \
+| cpp -Dnetwork_"$w"=1 \
+| filter_whitespace > assign.new
+
+mv assign.new assign
