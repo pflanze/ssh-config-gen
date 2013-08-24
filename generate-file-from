@@ -9,6 +9,6 @@ w="${WHAMI-`whami`}"
 
 /opt/chj/ssh-config-gen/filter_file "$from" \
 | cpp -Dnetwork_"$w"=1 \
-| /opt/chj/bin/filter_whitespace > ."$to".new
+| /opt/chj/bin/filter-whitespace > ."$to".new
 
 mv ."$to".new "$to"
