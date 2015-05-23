@@ -1,7 +1,5 @@
 # configuration that's common to all setups
 
-Cipher blowfish
-
 Host 192.168.*.*
 Compression no
 
