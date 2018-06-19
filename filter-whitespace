@@ -1,0 +1,43 @@
+#!/usr/bin/perl -w
+
+# Don Aug  7 16:25:32 MEST 2003, copyright Christian Jaeger, MIT License
+(my $email='ch%christianjaeger,ch')=~ tr/%,/@./;
+
+use strict;
+
+$0=~ /(.*?)([^\/]+)\z/s or die "?"; 
+my ($mydir, $myname)=($1,$2); 
+sub usage {
+    print STDERR map{"$_\n"} @_ if @_;
+    print "$myname
+   Filter away lines only containing whitespace or comments.
+
+  (Christian Jaeger <$email>)
+";
+exit @_ ? 1 : 0;
+}
+
+my @args;
+for (my $i=0; $i<=$#ARGV; $i++) {
+    local $_=$ARGV[$i];
+    if (/^--?h(elp)?$/) {
+    	usage
+    } elsif ($_ eq '--') {
+    	push @args, @ARGV[$i+1..$#ARGV];
+    	last;
+    } elsif (/^-./) {
+    	usage("Unknown option '$_'\n");
+    } else {
+    	push @args, $_
+    }
+}
+
+usage if @args;
+
+while (<STDIN>) {
+    next if /^\s*\z/s or /^\s*\#/;
+    print or die "STDOUT: $!";
+}
+
+close STDIN or die $!;
+close STDOUT or die $!;
